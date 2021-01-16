@@ -1,15 +1,11 @@
 <template>
-<b-container class="bv-example-row">
-  <b-row v-for="item1 in items" :key="item1">
-    <b-col v-for="item2 in items" :key="item2">
-      <b-img thumbnail fluid :src="getImageUrl(50+item1*6+item2)" alt="Image 1"></b-img>
-      <span>{{randomImage()}}</span>
+<b-container >
+  <b-row v-for="item1 in items" :key="item1" class="mb-1">
+    <b-col v-for="item2 in items" :key="item2" class="mt-0">
+      <!-- <b-img thumbnail fluid :src="getImageUrl(50+item1*6+item2)" alt="Image 1"></b-img> -->
+      <b-img fluid-grow :src="getImageUrl(10+imagePool[item1*6+item2])" alt="Image 1"></b-img>
+      <!-- <span>{{imagePool[item1*6+item2]}}</span> -->
     </b-col>
-    <!-- <b-col><b-img thumbnail fluid :src="getImageUrl(50+item)" alt="Image 1"></b-img></b-col>
-    <b-col><b-img thumbnail fluid :src="getImageUrl(50+item)" alt="Image 1"></b-img></b-col>
-    <b-col><b-img thumbnail fluid :src="getImageUrl(50+item)" alt="Image 1"></b-img></b-col>
-    <b-col><b-img thumbnail fluid :src="getImageUrl(50+item)" alt="Image 1"></b-img></b-col>
-    <b-col><b-img thumbnail fluid :src="getImageUrl(50+item)" alt="Image 1"></b-img></b-col> -->
   </b-row>
 </b-container>
 </template>
@@ -26,8 +22,6 @@ export default {
   // },
   data(){
     return {
-      imageId: 0,
-      isBusy: false,
       items: [0,1,2,3,4,5],
       imagePool:[],
       mainProps: {
@@ -35,14 +29,15 @@ export default {
         fluidGrow: true,
         blank: true,
         blankColor: '#bbb',
-        width: 250,
-        height: 250,
+        width: 600,
+        height: 600,
         class: 'my-5'
       }
     }
   },
   created(){
-      //this.doRandom()
+      this.imagePool = this.createRandomNums()
+      console.log(this.imagePool)
   },
   computed: {
   },
@@ -55,6 +50,19 @@ export default {
         const idx = Math.floor(Math.random()*36); //Math.floor(Math.random() * this.images.length);
         return idx; //this.selectedImage = this.images[idx];
       },
+      createRandomNums(){
+          function randomNumber(max) {
+            return Math.floor(Math.random() * max + 1);
+          }
+          
+          const nums = []
+          while(nums.length < 36 ){
+              let nbr = randomNumber(36)
+              if(!nums.find(el => el === nbr)) nums.push(nbr) 
+          }
+          //console.log("list",list)
+          return nums
+      }
       // aRandom(f,c){
       //   var r = Math.floor(Math.random()*c);
       //   this.aRandom._a[r] ? this.aRandom(f,c) : f(r,this.aRandom._a[r] = 1);
@@ -95,7 +103,7 @@ export default {
   max-width: 100%;
   width: 100%;
   min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 2px;
+  padding-left: 2px;
 }
 </style>
