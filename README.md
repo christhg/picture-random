@@ -1,5 +1,5 @@
 # picture-random
-
+任意排列 6 x 6 圖片 
 ## Project setup
 ```
 npm install
