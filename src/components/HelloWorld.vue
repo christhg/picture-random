@@ -1,58 +1,101 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+<b-container class="bv-example-row">
+  <b-row v-for="item1 in items" :key="item1">
+    <b-col v-for="item2 in items" :key="item2">
+      <b-img thumbnail fluid :src="getImageUrl(50+item1*6+item2)" alt="Image 1"></b-img>
+      <span>{{randomImage()}}</span>
+    </b-col>
+    <!-- <b-col><b-img thumbnail fluid :src="getImageUrl(50+item)" alt="Image 1"></b-img></b-col>
+    <b-col><b-img thumbnail fluid :src="getImageUrl(50+item)" alt="Image 1"></b-img></b-col>
+    <b-col><b-img thumbnail fluid :src="getImageUrl(50+item)" alt="Image 1"></b-img></b-col>
+    <b-col><b-img thumbnail fluid :src="getImageUrl(50+item)" alt="Image 1"></b-img></b-col>
+    <b-col><b-img thumbnail fluid :src="getImageUrl(50+item)" alt="Image 1"></b-img></b-col> -->
+  </b-row>
+</b-container>
 </template>
 
 <script>
+// @ is an alias to /src
+//import { getTableList } from '@/api/serviceDomi'
+//import axios from 'axios'
+//import FileUpLoad from '@/components/FileUpload.vue'
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  // components: {
+  //   FileUpLoad
+  // },
+  data(){
+    return {
+      imageId: 0,
+      isBusy: false,
+      items: [0,1,2,3,4,5],
+      imagePool:[],
+      mainProps: {
+        center: true,
+        fluidGrow: true,
+        blank: true,
+        blankColor: '#bbb',
+        width: 250,
+        height: 250,
+        class: 'my-5'
+      }
+    }
+  },
+  created(){
+      //this.doRandom()
+  },
+  computed: {
+  },
+  methods:{
+      getImageUrl(imageId) {
+        const { width, height } = this.mainProps
+        return `https://picsum.photos/${width}/${height}/?image=${imageId}`
+      },
+      randomImage() {
+        const idx = Math.floor(Math.random()*36); //Math.floor(Math.random() * this.images.length);
+        return idx; //this.selectedImage = this.images[idx];
+      },
+      // aRandom(f,c){
+      //   var r = Math.floor(Math.random()*c);
+      //   this.aRandom._a[r] ? this.aRandom(f,c) : f(r,this.aRandom._a[r] = 1);
+      // },
+      // doRandom(){
+      //   var len = 10;
+      //   var resultset = [];
+      //   for(var i =0; i< len; i++){
+      //     this.aRandom(function(r){ resultset.push(r); }, len);
+      //   }
+      //   console.log(resultset);
+      // }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style scoped lang="css">
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%;
+  max-width: 1140px;  /* 隨螢幕尺寸而變，當螢幕尺寸 ≥ 1200px 時是 1140px。 */
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+
+.col {
+  position: relative;
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
 }
 </style>
